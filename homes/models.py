@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-from django.db import models
 
 class Home(models.Model):
     url = models.URLField(max_length=255)
