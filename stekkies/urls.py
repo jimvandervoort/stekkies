@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from homes.views import HomeViewSet
+from homes.views import HomeViewSet, FrontendView
 
 router = DefaultRouter()
 router.register(r'homes', HomeViewSet)
@@ -25,4 +25,5 @@ router.register(r'homes', HomeViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('', FrontendView.as_view(), name='frontend'),
 ]

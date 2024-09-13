@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+<div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6 mb-8">
+    <h1 class="text-3xl font-bold mb-6 text-center">Find Your Perfect Home</h1>
+
+    <form id="filterForm" class="space-y-6">
+        <!-- Numeric Filters -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Price Range</label>
+                <div class="flex space-x-2">
+                    <input type="number" id="price-min" name="min_price" placeholder="Min"
+                           class="w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    <input type="number" id="price-max" name="max_price" placeholder="Max"
+                           class="w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+            </div>
+            <div>
+                <label for="rooms" class="block text-sm font-medium text-gray-700 mb-1">Number of Rooms</label>
+                <input type="number" id="rooms" name="rooms" min="1"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div>
+                <label for="surface_area" class="block text-sm font-medium text-gray-700 mb-1">Surface Area (m²)</label>
+                <input type="number" id="surface_area" name="surface_area" min="1"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div>
+                <label for="bedrooms" class="block text-sm font-medium text-gray-700 mb-1">Number of Bedrooms</label>
+                <input type="number" id="bedrooms" name="bedrooms" min="1"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+        </div>
+
+        <!-- Boolean Filters -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <label class="flex items-center space-x-2">
+                <input type="checkbox" name="balcony" class="rounded text-indigo-600 focus:ring-indigo-500">
+                <span class="text-sm text-gray-700">Balcony</span>
+            </label>
+            <label class="flex items-center space-x-2">
+                <input type="checkbox" name="bath" class="rounded text-indigo-600 focus:ring-indigo-500">
+                <span class="text-sm text-gray-700">Bath</span>
+            </label>
+            <label class="flex items-center space-x-2">
+                <input type="checkbox" name="furnished" class="rounded text-indigo-600 focus:ring-indigo-500">
+                <span class="text-sm text-gray-700">Furnished</span>
+            </label>
+            <label class="flex items-center space-x-2">
+                <input type="checkbox" name="garden" class="rounded text-indigo-600 focus:ring-indigo-500">
+                <span class="text-sm text-gray-700">Garden</span>
+            </label>
+        </div>
+
+        <!-- Location and Sorting -->
+        <div class="space-y-4">
+            <div>
+                <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Your Location</label>
+                <input type="text" id="address" name="address" placeholder="Enter your address"
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+            <div>
+                <label for="sort" class="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
+                <select id="sort" name="sort"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                    <option value="distance">Distance</option>
+                    <option value="commute-time">Commute Time</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            <button type="submit"
+                    class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Search Homes
+            </button>
+        </div>
+    </form>
+</div>
+
+<div id="homes"></div>
+
+<!-- Home Card -->
+<template id="homeTemplate">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="md:flex">
+            <div class="md:flex-shrink-0">
+                <img class="h-48 w-full object-cover md:w-48" src="/placeholder.svg?height=192&width=192"
+                     alt="Home exterior">
+            </div>
+            <div class="p-8">
+                <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Featured Home</div>
+                <a href="#" class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">Charming
+                    Suburban Family House</a>
+                <p class="mt-2 text-gray-500">This beautiful family home offers a perfect blend of comfort and style,
+                    situated in a quiet neighborhood with easy access to local amenities.</p>
+                <div class="mt-4">
+                    <p class="text-gray-600"><strong>Address:</strong> 123 Maple Street, Anytown, ST 12345</p>
+                </div>
+                <div class="mt-4 flex flex-wrap">
+                    <div class="mr-4 mb-2">
+                        <span class="text-gray-600">Size:</span>
+                        <span class="font-semibold">180 m²</span>
+                    </div>
+                    <div class="mr-4 mb-2">
+                        <span class="text-gray-600">Bedrooms:</span>
+                        <span class="font-semibold">3</span>
+                    </div>
+                    <div class="mr-4 mb-2">
+                        <span class="text-gray-600">Price:</span>
+                        <span class="font-semibold">$350,000</span>
+                    </div>
+                </div>
+                <div class="mt-4 flex flex-wrap">
+                    <div class="flex items-center mr-4 mb-2">
+                        <svg class="h-5 w-5 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="text-gray-600">Garden</span>
+                    </div>
+                    <div class="flex items-center mr-4 mb-2">
+                        <svg class="h-5 w-5 text-green-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span class="text-gray-600">Balcony</span>
+                    </div>
+                    <div class="flex items-center mr-4 mb-2">
+                        <svg class="h-5 w-5 text-red-500 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        <span class="text-gray-600">Furnished</span>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <a href="#"
+                       class="inline-block bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">View
+                        Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>
